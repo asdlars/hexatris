@@ -39,21 +39,21 @@ function BlockData(topB,topRightB,bottomRightB,bottomB,bottomLeftB,topLeftB){
 }
 
 var block1  = new BlockData(1,1,0,0,0,1);
-var block1Colour = "0xff0000";
+var block1Colour = "0xff6666";
 var block2  = new BlockData(0,1,0,0,0,1);
 var block2Colour = "0xffffff";
 var block3  = new BlockData(1,1,0,0,0,0);
-var block3Colour = "0x0000ff";
+var block3Colour = "0x6666ff";
 var block4  = new BlockData(1,1,0,1,0,0);
-var block4Colour = "0xffff00";
+var block4Colour = "0xffff66";
 var block5  = new BlockData(1,0,0,1,0,1);
-var block5Colour = "0x333333";
+var block5Colour = "0x363636";
 var block6  = new BlockData(0,1,1,0,1,1);
-var block6Colour = "0xff00ff";
+var block6Colour = "0xff66ff";
 var block7  = new BlockData(1,0,0,1,0,0);
-var block7Colour = "0x0f0f0f";
+var block7Colour = "0x6f6f6f";
 var block8  = new BlockData(1,1,1,1,1,0);
-var block8Colour = "0xf0f0f0";
+var block8Colour = "0xf6f6f6";
 
 var currentBlock= new BlockData(0,0,0,0,0,0);
 var prevBlock= new BlockData(0,0,0,0,0,0);
@@ -142,7 +142,6 @@ function create() {
     hexSprite.rotation=Math.PI/2;
 
     gameScene=this.add.renderTexture(40, 115, 600,1000);
-    gameScene.setDepth(10);
     infoTxt=this.add.text(300,40,'0');
     infoTxt.setDepth(20);
     infoTxt.setOrigin(0.5, 0.5);
@@ -213,7 +212,7 @@ function renderScene(){
             }
             axialPoint.x=i;
             axialPoint.y=j;
-            hexSprite.tint='0x44ff44';
+            hexSprite.tint='0x77ffff';
             if(levelData[i][j]>-1){
                 axialPoint=offsetToAxial(axialPoint);
                 cubicZ=calculateCubicZ(axialPoint);
@@ -238,7 +237,7 @@ function releaseBlock(){
     blockMidRowValue=1;
     blockMidColumnValue=5;
     var whichBlock= Math.floor(1+(Math.random()*8));
-    //whichBlock=1;
+    console.log(whichBlock);
     switch (whichBlock) {//assign blocks
         case 1:
             currentBlock=block1;

@@ -217,15 +217,11 @@ function renderScene(){
             if(levelData[i][j]>-1){
                 axialPoint=offsetToAxial(axialPoint);
                 cubicZ=calculateCubicZ(axialPoint);
+                this.temporal = currentBlockType+"Colour";
                 if(levelData[i][j]==1){
-                  console.log("currentBlockType",currentBlockType);
-                  console.log("block1Colour",block1Colour);
-                  this.temporal = currentBlockType+"Colour";
-                  console.log("temporal",this.temporal);
                   hexSprite.tint = this[temporal];
-                  console.log(this[temporal]);
                 }else if(levelData[i][j]==2){
-                    hexSprite.tint=getColour();
+                  hexSprite.tint = this[temporal];
                 }else if(levelData[i][j]>2){
                     hexSprite.tint='0x00ffff';
                 }

@@ -1,6 +1,6 @@
 /*global Phaser*/
 /* hexagonal tetris in vertical alignment */
-console.log("INIT");
+  console.info("Welcome to Hexatris :3");
 const config = {
     type: Phaser.AUTO,
     parent: 'TutContainer',
@@ -37,22 +37,29 @@ function BlockData(topB,topRightB,bottomRightB,bottomB,bottomLeftB,topLeftB){
     this.tlBlock=topLeftB;
     this.mBlock=1;
 }
-
+//Square
 var block1  = new BlockData(1,1,0,0,0,1);
-var block1Colour = "0xff6666";
+var block1Colour = "0xf6ff07";
+//Small u
 var block2  = new BlockData(0,1,0,0,0,1);
-var block2Colour = "0xffffff";
-var block3  = new BlockData(1,1,0,0,0,0);
-var block3Colour = "0x6666ff";
+var block2Colour = "0xff0000";
+//Radial
+var block3  = new BlockData(1,0,1,0,1,0);
+var block3Colour = "0xdb0de2";
+//L der
 var block4  = new BlockData(1,1,0,1,0,0);
-var block4Colour = "0xffff66";
+var block4Colour = "0xffa500";
+//L izq
 var block5  = new BlockData(1,0,0,1,0,1);
-var block5Colour = "0x363636";
+var block5Colour = "0x0a1afc";
+//Bone
 var block6  = new BlockData(0,1,1,0,1,1);
-var block6Colour = "0xff66ff";
+var block6Colour = "0xfc0a7b";
+//Linea
 var block7  = new BlockData(1,0,0,1,0,0);
-var block7Colour = "0x6f6f6f";
-var block8  = new BlockData(1,1,1,1,1,0);
+var block7Colour = "0x0afcf4";
+//Punto
+var block8  = new BlockData(1,1,0,0,0,0);
 var block8Colour = "0xf6f6f6";
 
 var currentBlock= new BlockData(0,0,0,0,0,0);
@@ -111,13 +118,16 @@ function preload() {
     this.load.crossOrigin='Anonymous';//cross origin fix
     //load all necessary assets
     this.load.bitmapFont('font', 'res/font.png?dl=0', 'res/font.xml?dl=0');
-    this.load.image('hex', 'res/hexsmall.png?dl=0');
+    this.load.image('hex', 'res/hex.png?dl=0');
 }
 
 function create() {
-    bmpText = this.add.bitmapText(10, 10, 'font', 'Hexatris\nA/D to move sideways\nZ/X to rotate\nTap S to drop one row', 18);
+    bmpText = this.add.bitmapText(10, 10, 'font', 'Hexatris\nA/D or the Arrows to move sideways\nZ/X to rotate\nTap S or Down arrow to drop one row\nTap W or UP to Drop all the way down.', 18);
     //this.stage.backgroundColor = '#000000';
     this.input.keyboard.on('keyup-W', function () {
+        dropAllTheWay();
+    });
+    this.input.keyboard.on('keyup-UP', function () {
         dropAllTheWay();
     });
     this.input.keyboard.on('keyup-X', function () {
@@ -129,10 +139,19 @@ function create() {
     this.input.keyboard.on('keyup-A', function () {
         moveLeft();
     });
+    this.input.keyboard.on('keyup-LEFT', function () {
+        moveLeft();
+    });
     this.input.keyboard.on('keyup-D', function () {
         moveRight();
     });
+    this.input.keyboard.on('keyup-RIGHT', function () {
+        moveRight();
+    });
     this.input.keyboard.on('keyup-S', function () {
+        dropDown();
+    });
+    this.input.keyboard.on('keyup-DOWN', function () {
         dropDown();
     });
 
@@ -161,9 +180,17 @@ function create() {
 }
 function update(){
     //elapsedTime+=this.time.elapsed;
+    var tickerSpeed = 1200-(score*2);
     var elapsedTime = ticker.getProgress();
+    //prepare tickerSpeed
+    if (tickerSpeed<=100) {
+      tickerSpeed = 100;
+    }
+
+
     if(elapsedTime==1){
         elapsedTime=0.0;
+        ticker = new Phaser.Time.TimerEvent({ delay: tickerSpeed });
         this.time.addEvent(ticker);
         dropDown();
         if(needsClearing){
@@ -212,7 +239,7 @@ function renderScene(){
             }
             axialPoint.x=i;
             axialPoint.y=j;
-            hexSprite.tint='0x77ffff';
+            hexSprite.tint='0xffffff';
             if(levelData[i][j]>-1){
                 axialPoint=offsetToAxial(axialPoint);
                 cubicZ=calculateCubicZ(axialPoint);
@@ -236,8 +263,8 @@ function releaseBlock(){
     if(blockPresent)return;
     blockMidRowValue=1;
     blockMidColumnValue=5;
-    var whichBlock= Math.floor(1+(Math.random()*8));
-    console.log(whichBlock);
+    var whichBlock= Math.floor(1+(Math.random()*7));
+    console.log("BLOCK ::: ",whichBlock);
     switch (whichBlock) {//assign blocks
         case 1:
             currentBlock=block1;
